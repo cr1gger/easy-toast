@@ -8,7 +8,7 @@ The library weighs little, does not require css and is very easy to connect.
 
 ## Install via `<script>`:
 
-Download `dist/easy-toast.js` from releases page
+Download `dist/easy-toast.js` from [releases page](https://github.com/cr1gger/easy-toast/releases)
 
 In head:
 ```html
@@ -28,7 +28,8 @@ let config = {
     type: 'success',
     position: 'bottom-center',
     hasCloseButton: false
-    }
+}
+    
 toast.notify("Hello it's easy toast, custom options!", config) 
 ```
 
