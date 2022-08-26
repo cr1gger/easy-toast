@@ -63,4 +63,4 @@ toast.notify("Hello it's easy toast, custom options!", config)
 - `stopOnHover` - Pause the timer when you hover over a notification | boolean
 - `events` - Object contains two available event: click and closeClick
 
-###Version: 1.0.0
+### Version: 1.0.0
