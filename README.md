@@ -1,4 +1,4 @@
-#Easy Toast
+# Easy Toast
 **easy toast** - is a vanilla javascript library for notifications.
 <hr>
 The purpose of this library is education.
@@ -6,7 +6,7 @@ I will be glad to your commits and code reviews in general!
 
 The library weighs little, does not require css and is very easy to connect.
 
-##Install via `<script>`:
+## Install via `<script>`:
 
 Download `dist/easy-toast.js` from releases page
 
