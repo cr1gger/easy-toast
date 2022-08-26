@@ -11,18 +11,18 @@ The library weighs little, does not require css and is very easy to connect.
 Download `dist/easy-toast.js` from releases page
 
 In head:
-```
+```html
 <script src="easy-toast.js"></script>
 ```
 ## Usage
 
 #### Default options
-```
+```javascript
 toast.notify("Hello it's easy toast!") 
 ```
 
 #### Custom options
-```
+```javascript
 let config = {
     duration: 3,
     type: 'success',
@@ -33,7 +33,7 @@ toast.notify("Hello it's easy toast, custom options!", config)
 ```
 
 ## Configuration
-```
+```javascript
 {
     duration: 3,
     type: 'default',
