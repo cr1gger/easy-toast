@@ -4,7 +4,8 @@
   "description": "Easy toast notifications in vanilla JavaScript",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --watch"
+    "dev": "webpack --watch",
+    "build": "webpack"
   },
   "keywords": [],
   "author": {
@@ -13,13 +14,13 @@
     "telegram": "@cr1gger"
   },
   "license": "ISC",
-  "dependencies": {
-    "path": "^0.12.7",
-    "remove": "^0.1.5"
-  },
   "devDependencies": {
     "css-loader": "^6.7.1",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "node-sass": "^7.0.1",
+    "path": "^0.12.7",
+    "remove": "^0.1.5",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
     "webpack": "^5.74.0",

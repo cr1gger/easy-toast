@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+
     entry: './src/js/index.js',
     output: {
         filename: 'easy-toast.js',
@@ -10,9 +11,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.scss$/i,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
-            },
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: { outputPath: './', name: 'style.min.css'}
+                    },
+                    'sass-loader'
+                ]
+            }
+
         ],
-    }
+    },
 };

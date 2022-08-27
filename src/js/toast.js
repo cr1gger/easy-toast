@@ -1,32 +1,32 @@
-export default class Toast {
+export default function () {
 
     // Stack position classes
-    STACK_CLASS_TL = 'easy-toast-stack-tl'
-    STACK_CLASS_TR = 'easy-toast-stack-tr'
-    STACK_CLASS_TM = 'easy-toast-stack-tm'
-    STACK_CLASS_BR = 'easy-toast-stack-br'
-    STACK_CLASS_BL = 'easy-toast-stack-bl'
-    STACK_CLASS_BM = 'easy-toast-stack-bm'
-    STACK_CLASS_CENTER = 'easy-toast-stack-center'
-    TIMELINE_CLASS = 'easy-toast-timeline'
+    const STACK_CLASS_TL = 'easy-toast-stack-tl'
+    const STACK_CLASS_TR = 'easy-toast-stack-tr'
+    const STACK_CLASS_TM = 'easy-toast-stack-tm'
+    const STACK_CLASS_BR = 'easy-toast-stack-br'
+    const STACK_CLASS_BL = 'easy-toast-stack-bl'
+    const STACK_CLASS_BM = 'easy-toast-stack-bm'
+    const STACK_CLASS_CENTER = 'easy-toast-stack-center'
+    const TIMELINE_CLASS = 'easy-toast-timeline'
 
     // Positions
-    POSITION_TR = 'top-right'
-    POSITION_TM = 'top-middle'
-    POSITION_TL = 'top-left'
-    POSITION_BL = 'bottom-left'
-    POSITION_BM = 'bottom-middle'
-    POSITION_BR = 'bottom-right'
-    POSITION_CENTER = 'center'
+    const POSITION_TR = 'top-right'
+    const POSITION_TM = 'top-middle'
+    const POSITION_TL = 'top-left'
+    const POSITION_BL = 'bottom-left'
+    const POSITION_BM = 'bottom-middle'
+    const POSITION_BR = 'bottom-right'
+    const POSITION_CENTER = 'center'
 
     // Types
-    TYPE_DEFAULT = 'default'
-    TYPE_SUCCESS = 'success'
-    TYPE_DANGER = 'danger'
-    TYPE_WARNING = 'warning'
-    TYPE_DARK = 'dark'
+    const TYPE_DEFAULT = 'default'
+    const TYPE_SUCCESS = 'success'
+    const TYPE_DANGER = 'danger'
+    const TYPE_WARNING = 'warning'
+    const TYPE_DARK = 'dark'
 
-    DEFAULT_CONFIG = {
+    const DEFAULT_CONFIG = {
         duration: 3,
         type: 'default',
         position: 'bottom-right',
@@ -40,11 +40,11 @@ export default class Toast {
         }
     }
 
-    notify(message, cfg = {}) {
-        let config = {...this.DEFAULT_CONFIG, ...cfg }
+    function notify(message, cfg = {}) {
+        let config = {...DEFAULT_CONFIG, ...cfg }
 
-        let stack = this.getStack(config.position)
-        let { notify, notifyClose, notifyTimeline } = this.createNotify(message, config)
+        let stack = getStack(config.position)
+        let { notify, notifyClose, notifyTimeline } = createNotify(message, config)
 
         if (config.stopOnHover) {
             notify.onmouseenter = function() {
@@ -55,13 +55,13 @@ export default class Toast {
                 let startTime = notify.getAttribute('data-start')
                 let lastTime = notify.getAttribute('data-last')
 
-                this.startAnimate(notify, config, (lastTime - startTime), notifyTimeline.style.width.replace('%', ''))
-            }.bind(this)
+                startAnimate(notify, config, (lastTime - startTime), notifyTimeline.style.width.replace('%', ''))
+            }
         }
 
         stack.prepend(notify)
 
-        let animateId = this.startAnimate(notify, config)
+        let animateId = startAnimate(notify, config)
 
         // Register event close click
         if (config.hasCloseButton) {
@@ -74,7 +74,7 @@ export default class Toast {
             } else {
                 notifyClose.onclick = (e) => {
                     e.stopPropagation();
-                    this.destroy(notify, animateId)
+                    destroy(notify, animateId)
                 }
             }
         }
@@ -89,27 +89,28 @@ export default class Toast {
         }
     }
 
-    startAnimate(notify, config, startDuration = null, startPercent = null) {
+    function startAnimate(notify, config, startDuration = null, startPercent = null) {
         notify.setAttribute('data-start', Date.now())
 
         let duration = startDuration ?
             config.duration * 1000 - startDuration : config.duration * 1000
 
-        let percent = startPercent ?? 100
+        // let percent = startPercent ?? 100
+        let percent = nullOperation(startPercent, 100)
 
 
-        let animateId = this.animate({
+        let animateId = animate({
             timing: function(timeFraction) {
                 return percent - (timeFraction * 100)
             },
             draw: (progress) => {
                 if (config.showTimeline && config.autoclose) {
                     notify.setAttribute('data-last', Date.now())
-                    notify.querySelector(`.${this.TIMELINE_CLASS}`).style.width = progress + '%';
+                    notify.querySelector(`.${TIMELINE_CLASS}`).style.width = progress + '%';
                 }
                 if (progress < 1) {
                     if (config.autoclose) {
-                        this.destroy(notify, animateId)
+                        destroy(notify, animateId)
                     }
                 }
             },
@@ -120,9 +121,22 @@ export default class Toast {
         return animateId;
     }
 
-    createNotify(text, config) {
-        let typeClass = this.getTypeClass(config.type)
-        let timeLineBg = this.getTimelineClass(config.type)
+    function nullOperation(value, defaultValue)
+    {
+        if (value) {
+            return value;
+        }
+        if (defaultValue)
+        {
+            return defaultValue
+        }
+
+        return null;
+    }
+
+    function createNotify(text, config) {
+        let typeClass = getTypeClass(config.type)
+        let timeLineBg = getTimelineClass(config.type)
 
         let notifyBlock = document.createElement('div');
         notifyBlock.className = 'easy-toast easy-toast-block ' + typeClass
@@ -149,7 +163,7 @@ export default class Toast {
 
 
         let notifyTimeline = document.createElement('div')
-        notifyTimeline.className = `easy-toast ${timeLineBg} ${this.TIMELINE_CLASS}`
+        notifyTimeline.className = `easy-toast ${timeLineBg} ${TIMELINE_CLASS}`
 
         notifyFlex.append(notifyTitle)
 
@@ -174,9 +188,9 @@ export default class Toast {
 
     }
 
-    getStack(position) {
-        let positionClass = this.getPositionClasses(position)
-        let stackClass = this.getStackClass(position)
+    function getStack(position) {
+        let positionClass = getPositionClasses(position)
+        let stackClass = getStackClass(position)
 
         let stack = document.querySelector('.' + stackClass)
         if (!stack)
@@ -194,62 +208,62 @@ export default class Toast {
         return stack;
     }
 
-    destroy(block, animateId = null) {
+    function destroy(block, animateId = null) {
         block.remove()
         if (animateId) {
             cancelAnimationFrame(animateId)
         }
     }
 
-    getPositionClasses(position) {
+    function getPositionClasses(position) {
         switch (position) {
-            case this.POSITION_TL: return 'easy-toast-position-top-left';
-            case this.POSITION_TM: return 'easy-toast-position-top-middle';
-            case this.POSITION_TR: return 'easy-toast-position-top-right';
+            case POSITION_TL: return 'easy-toast-position-top-left';
+            case POSITION_TM: return 'easy-toast-position-top-middle';
+            case POSITION_TR: return 'easy-toast-position-top-right';
 
-            case this.POSITION_BL: return 'easy-toast-position-bottom-left';
-            case this.POSITION_BM: return 'easy-toast-position-bottom-middle';
-            case this.POSITION_BR: return 'easy-toast-position-bottom-right';
-            case this.POSITION_CENTER: return 'easy-toast-position-center';
+            case POSITION_BL: return 'easy-toast-position-bottom-left';
+            case POSITION_BM: return 'easy-toast-position-bottom-middle';
+            case POSITION_BR: return 'easy-toast-position-bottom-right';
+            case POSITION_CENTER: return 'easy-toast-position-center';
             default: return 'easy-toast-position-bottom-right'
 
         }
     }
 
-    getStackClass(position) {
+    function getStackClass(position) {
         switch (position) {
-            case this.POSITION_TL: return this.STACK_CLASS_TL;
-            case this.POSITION_TM: return this.STACK_CLASS_TM;
-            case this.POSITION_TR: return this.STACK_CLASS_TR;
-            case this.POSITION_BL: return this.STACK_CLASS_BL;
-            case this.POSITION_BM: return this.STACK_CLASS_BM;
-            case this.POSITION_BR: return this.STACK_CLASS_BR;
-            case this.POSITION_CENTER: return this.STACK_CLASS_CENTER;
-            default: return this.STACK_CLASS_BR;
+            case POSITION_TL: return STACK_CLASS_TL;
+            case POSITION_TM: return STACK_CLASS_TM;
+            case POSITION_TR: return STACK_CLASS_TR;
+            case POSITION_BL: return STACK_CLASS_BL;
+            case POSITION_BM: return STACK_CLASS_BM;
+            case POSITION_BR: return STACK_CLASS_BR;
+            case POSITION_CENTER: return STACK_CLASS_CENTER;
+            default: return STACK_CLASS_BR;
         }
     }
 
-    getTypeClass(type) {
+    function getTypeClass(type) {
         switch (type) {
-            case this.TYPE_DEFAULT: return 'et-bg-gray-500';
-            case this.TYPE_SUCCESS: return 'et-bg-green-500';
-            case this.TYPE_DANGER: return 'et-bg-red-500';
-            case this.TYPE_WARNING: return 'et-bg-yellow-500';
-            case this.TYPE_DARK: return 'et-bg-gray-900';
+            case TYPE_DEFAULT: return 'et-bg-gray-500';
+            case TYPE_SUCCESS: return 'et-bg-green-500';
+            case TYPE_DANGER: return 'et-bg-red-500';
+            case TYPE_WARNING: return 'et-bg-yellow-500';
+            case TYPE_DARK: return 'et-bg-gray-900';
         }
     }
 
-    getTimelineClass(type) {
+    function getTimelineClass(type) {
         switch (type) {
-            case this.TYPE_DEFAULT: return 'et-bg-gray-900';
-            case this.TYPE_SUCCESS: return 'et-bg-green-900';
-            case this.TYPE_DANGER: return 'et-bg-red-900';
-            case this.TYPE_WARNING: return 'et-bg-yellow-900';
-            case this.TYPE_DARK: return 'et-bg-gray-500';
+            case TYPE_DEFAULT: return 'et-bg-gray-900';
+            case TYPE_SUCCESS: return 'et-bg-green-900';
+            case TYPE_DANGER: return 'et-bg-red-900';
+            case TYPE_WARNING: return 'et-bg-yellow-900';
+            case TYPE_DARK: return 'et-bg-gray-500';
         }
     }
 
-    animate = ({timing, draw, duration, notify}) => {
+    const animate = ({timing, draw, duration, notify}) => {
 
         let start = performance.now();
 
@@ -272,7 +286,7 @@ export default class Toast {
         });
     }
 
-    testShowAll() {
+    function testShowAll() {
         let conf1 = {
             duration: 3,
             type: 'default',
@@ -349,13 +363,16 @@ export default class Toast {
             type: 'success'
         }
 
-        this.notify('Bottom-Right position', conf1)
-        this.notify('Bottom-Left position', conf2)
-        this.notify('Bottom-Middle position', conf3)
-        this.notify('Top-Right position', conf4)
-        this.notify('Top-Left position', conf5)
-        this.notify('Top-Middle position', conf6)
-        this.notify('Center position', conf7)
+        notify('Bottom-Right position', conf1)
+        notify('Bottom-Left position', conf2)
+        notify('Bottom-Middle position', conf3)
+        notify('Top-Right position', conf4)
+        notify('Top-Left position', conf5)
+        notify('Top-Middle position', conf6)
+        notify('Center position', conf7)
     }
 
+    return {
+        notify
+    };
 }
