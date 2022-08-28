@@ -118,15 +118,17 @@
 <script>
     document.querySelector('#try').addEventListener('click', (e) => {
         e.preventDefault()
+
         let form = document.querySelector('#toastConfigure');
+
         let defaultCheckbox = {
             hasCloseButton: false,
             autoclose: false,
             stopOnHover: false,
         }
+
         let formConfig = Object.fromEntries(new FormData(form).entries());
         let config = {...defaultCheckbox, ...formConfig};
-        console.log(config)
 
         toast.configure(config)
 
