@@ -1,4 +1,6 @@
 import Toast from "./toast";
 import "../css/style.scss";
 
-window.toast = new Toast();
+const toast = new Toast();
+globalThis.toast = toast;
+

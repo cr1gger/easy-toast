@@ -4,7 +4,7 @@ module.exports = {
 
     entry: './src/js/index.js',
     output: {
-        filename: 'easy-toast.js',
+        filename: 'toast.without.css.js',
         path: path.resolve(__dirname, 'dist'),
     },
     mode: "production",
@@ -16,12 +16,14 @@ module.exports = {
                 use: [
                     {
                         loader: 'file-loader',
-                        options: { outputPath: './', name: 'style.min.css'}
+                        options: {
+                            outputPath: './',
+                            name: 'toast.min.css'
+                        }
                     },
                     'sass-loader'
                 ]
             }
-
         ],
     },
 };
