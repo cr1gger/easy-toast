@@ -1,5 +1,5 @@
 {
-  "name": "easy-vanilla-toast",
+  "name": "easy-v-toast",
   "version": "1.0.0",
   "description": "Easy toast notifications in vanilla JavaScript",
   "main": "index.js",
