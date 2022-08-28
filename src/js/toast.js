@@ -281,38 +281,38 @@ const animate = ({timing, draw, duration, notify}) => {
 }
 
 
-function Toast (configuration = {}) {
+function EasyToast (configuration = {}) {
 
     this.configuration = configuration
 }
 
-Toast.prototype.success = function(message) {
+EasyToast.prototype.success = function(message) {
     let config = {...this.configuration, type: 'success' }
     runNotify(message, config);
 }
 
-Toast.prototype.warning = function(message) {
+EasyToast.prototype.warning = function(message) {
     let config = {...this.configuration, type: 'warning' }
     runNotify(message, config);
 }
 
-Toast.prototype.danger = function(message) {
+EasyToast.prototype.danger = function(message) {
     let config = {...this.configuration, type: 'danger' }
     runNotify(message, config);
 }
 
-Toast.prototype.dark = function(message) {
+EasyToast.prototype.dark = function(message) {
     let config = {...this.configuration, type: 'dark' }
     runNotify(message, config);
 }
 
-Toast.prototype.configure = function(config) {
-    this.configuration = config
-}
-
-Toast.prototype.notify = function(message) {
+EasyToast.prototype.notify = function(message) {
     let config = {...this.configuration, type: 'default' }
     runNotify(message, config)
 }
 
-export default Toast
+EasyToast.prototype.configure = function(config) {
+    this.configuration = config
+}
+
+export default EasyToast
