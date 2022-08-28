@@ -18,12 +18,12 @@ Connect to the head tag:
 ## Install via NPM:
 Run:
 ```bash
-npm install easy-vanilla-toast
+npm install easy-v-toast
 ```
 At the place of use:
 ```javascript
-import Toast from "easy-vanilla-toast/dist/toast.without.css";
-import "easy-vanilla-toast/dist/toast.min.css";
+import Toast from "easy-v-toast/dist/toast.without.css";
+import "easy-v-toast/dist/toast.min.css";
 
 const toast = new EasyToast({
   // Configuration
